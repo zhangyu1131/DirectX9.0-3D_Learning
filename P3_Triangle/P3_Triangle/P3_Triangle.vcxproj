@@ -10,18 +10,10 @@
       <Platform>Win32</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="d3dUtility.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="cube.cpp" />
-    <ClCompile Include="d3dUtility.cpp" />
-    <ClCompile Include="triangle.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{3D5D6063-6FCD-46BD-A2A0-16F74710740B}</ProjectGuid>
+    <ProjectGuid>{1FE1F773-B8D5-45B9-BC1F-5151D28C15CE}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>P3</RootNamespace>
+    <RootNamespace>P3_Triangle</RootNamespace>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -99,6 +91,13 @@
       <Path>$(IntDir)$(MSBuildProjectName).log</Path>
     </BuildLog>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="d3dUtility.cpp" />
+    <ClCompile Include="triangle.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="d3dUtility.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

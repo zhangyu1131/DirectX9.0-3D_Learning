@@ -23,10 +23,7 @@
     <ClCompile Include="d3dUtility.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="cube.cpp">
-      <Filter>Resource Files</Filter>
-    </ClCompile>
-    <ClCompile Include="triangle.cpp">
+    <ClCompile Include="D3DXCreate.cpp">
       <Filter>Resource Files</Filter>
     </ClCompile>
   </ItemGroup>
