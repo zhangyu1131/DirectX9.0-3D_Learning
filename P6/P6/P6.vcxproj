@@ -96,7 +96,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="d3dUtility.cpp" />
-    <ClCompile Include="TexCube.cpp" />
+    <ClCompile Include="TexQuad.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
