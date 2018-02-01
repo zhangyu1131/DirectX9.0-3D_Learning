@@ -249,7 +249,9 @@ void RenderMirror()
 {
 	//启用模板缓存，并对相对的绘制状态进行设置
 	Device->SetRenderState(D3DRS_STENCILENABLE, true);
+	//模板比较运算函数设置为D3DCMP_ALWAYS，意为模板测试总会成功。
 	Device->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_ALWAYS);
+
 	Device->SetRenderState(D3DRS_STENCILREF, 0x1);
 	Device->SetRenderState(D3DRS_STENCILMASK, 0xffffffff);
 	Device->SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff);
@@ -285,10 +287,7 @@ void RenderMirror()
 	D3DXPLANE plane(0.0f, 0.0f, 1.0f, 0.0f); // xy所在平面
 	D3DXMatrixReflect(&R, &plane);
 
-	D3DXMatrixTranslation(&T,
-		TeapotPosition.x,
-		TeapotPosition.y,
-		TeapotPosition.z);
+	D3DXMatrixTranslation(&T,TeapotPosition.x,TeapotPosition.y,TeapotPosition.z);
 
 	W = T * R ;
 
