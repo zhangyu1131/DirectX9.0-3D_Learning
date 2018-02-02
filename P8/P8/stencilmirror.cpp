@@ -26,6 +26,7 @@ D3DMATERIAL9 TeapotMtrl = d3d::YELLOW_MTRL;
 
 void RenderScene();
 void RenderMirror();
+void RenderShadow();
 
 //
 // 顶点结构
@@ -202,6 +203,7 @@ bool Display(float timeDelta)
 		Device->BeginScene();
 		//主要绘制函数
 		RenderScene();
+		RenderShadow();
 		RenderMirror();
 
 		Device->EndScene();
@@ -308,6 +310,49 @@ void RenderMirror()
 	Device->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
 	Device->SetRenderState(D3DRS_STENCILENABLE, false);
 	Device->SetRenderState(D3DRS_CULLMODE, D3DCULL_CCW);
+}
+
+void RenderShadow()
+{
+	Device->SetRenderState(D3DRS_STENCILENABLE, true);//开启模板缓存
+	//设置缓存比较函数
+	Device->SetRenderState(D3DRS_STENCILFUNC, D3DCMP_EQUAL);
+	//设置状态
+	Device->SetRenderState(D3DRS_STENCILREF, 0x0);
+	Device->SetRenderState(D3DRS_STENCILMASK, 0xffffffff);//掩码
+	Device->SetRenderState(D3DRS_STENCILWRITEMASK, 0xffffffff);//写掩码
+	Device->SetRenderState(D3DRS_STENCILZFAIL, D3DSTENCILOP_KEEP);
+	Device->SetRenderState(D3DRS_STENCILFAIL, D3DSTENCILOP_KEEP);
+	Device->SetRenderState(D3DRS_STENCILPASS, D3DSTENCILOP_INCR);
+
+	//计算阴影位置
+	D3DXVECTOR4 lightDirection(0.707f, -0.707f, 0.707f, 0.0f);
+	D3DXPLANE groundPlane(0.0f, -1.0f, 0.0f, 0.0f);
+
+	D3DXMATRIX S;
+	D3DXMatrixShadow(&S, &lightDirection, &groundPlane);
+	D3DXMATRIX T;
+	D3DXMatrixTranslation(&T, TeapotPosition.x, TeapotPosition.y, TeapotPosition.z);
+	D3DXMATRIX W = T*S;
+	Device->SetTransform(D3DTS_WORLD, &W);
+	//设置阴影材质为50%的黑色，禁用深度缓存，绘制阴影，重新启动深度缓存，最终禁用alpha融合和模板测试
+	Device->SetRenderState(D3DRS_ALPHABLENDENABLE, true);//开启融合
+	Device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	Device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+
+	D3DMATERIAL9 mtrl = d3d::InitMtrl(d3d::BLACK, d3d::BLACK, d3d::BLACK, d3d::BLACK, 0.0f);
+	mtrl.Diffuse.a = 0.5f;//透明度
+	
+	Device->SetRenderState(D3DRS_ZENABLE, false);//关闭深度缓存，避免深度冲突
+
+	Device->SetMaterial(&mtrl);
+	Device->SetTexture(0, 0);
+	Teapot->DrawSubset(0);
+
+	//恢复一些临时设置
+	Device->SetRenderState(D3DRS_ZENABLE, true);
+	Device->SetRenderState(D3DRS_ALPHABLENDENABLE, false);
+	Device->SetRenderState(D3DRS_STENCILENABLE, false);
 }
 
 //
